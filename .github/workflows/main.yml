@@ -20,7 +20,9 @@ jobs:
          terraform_version: "1.7.0"
 
       - name: Run terraform plan
-        run: terraform plan
+        run: |
+           terraform init
+           terraform plan
 
 
 
