@@ -2,18 +2,32 @@ name: Terraform deployment
 on:
   [push, workflow_dispatch]
 jobs:
+  
   terraform:
      name: "Terraform working directory"
      runs-on: ubuntu-latest
      permissions:
         id-token: write
         contents: read
+     env:
+        AWS_REGION: 'eu-west-1'
      defaults:
         run:
          shell: bash
          working-directory: ./terraform
 
      steps:
+
+      - name: AWS Authentication
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            role-to-assume: ${{ secrets.AWS_GITHUB_ROLE }}
+            role-session-name: GitHub_to_AWS_via_FederatedOIDC
+            aws-region: ${{ env.AWS_REGION }}
+
+      - name: Check Whoami within AWS
+        run: aws sts get-caller-identity
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -26,8 +40,3 @@ jobs:
         run: |
            terraform init
            terraform plan
-
-
-
-
-
