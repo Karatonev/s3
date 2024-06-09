@@ -35,5 +35,5 @@ jobs:
 
       - name: Run terraform plan
         run: |
-           terraform init
+           terraform init -backend-config="bucket=${{secrets.AWS_TERRAFORM_BUCKET}}" -backend_config="key=${{secrets.AWS_TERRAFORM_KEY}}" -backend_config="region=${{ env.AWS_REGION }}"
            terraform plan
