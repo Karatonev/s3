@@ -14,7 +14,7 @@ jobs:
      defaults:
         run:
          shell: bash
-         #working-directory: ./terraform
+         working-directory: ./terraform
 
      steps:
 
@@ -24,9 +24,6 @@ jobs:
             role-to-assume: ${{ secrets.AWS_GITHUB_ROLE }}
             role-session-name: GitHub_to_AWS_via_FederatedOIDC
             aws-region: ${{ env.AWS_REGION }}
-
-      - name: Check Whoami within AWS
-        run: aws sts get-caller-identity
 
       - name: Checkout code
         uses: actions/checkout@v4
